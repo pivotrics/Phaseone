@@ -6,7 +6,7 @@ if (!class_exists('order_detail'))
     {
         public function __construct()
         {
-            print("inside connection page...");
+           // print("inside connection page...");
             add_action( 'woocommerce_thankyou', [$this, 'change_order_status'] );
             add_action('woocommerce_thankyou', [$this, 'order_details_to_server'], 10, 1);
         }
@@ -26,7 +26,7 @@ if (!class_exists('order_detail'))
         function order_details_to_server( $order_id ) {
 
 
-        print('inside order_details_to_server' + $order_id);
+       // print('inside order_details_to_server' + $order_id);
 
             if ( ! $order_id )
                 return;
@@ -81,10 +81,10 @@ if (!class_exists('order_detail'))
                 ],
                 'cookies'     => array(),
             );
-            $resp = wp_remote_post('http://10.1.7.156:8081/coupons/order-details', $args);
-            print_r($resp) ;
+            $resp = wp_remote_post('http://localhost:8081/coupons/order-details', $args);
+            print_r($resp);
             // echo "-----------------";
-            print_r($applied_coupons) ;
+            print_r($applied_coupons);
             // echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . ' — Order is paid: ' . $billing_phone . '</p>';
         }
     }

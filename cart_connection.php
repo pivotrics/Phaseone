@@ -7,7 +7,7 @@ class customer_cart_details
 	public function __construct()
 	{
 
-		print("inside customer_cart_details... ");
+		//print("inside customer_cart_details... ");
 
 		add_action('woocommerce_cart_calculate_fees', [$this, 'apply_coupon_to_cart'], 10, 1);
 		// add_filter('woocommerce_coupons_enabled', [$this, 'hide_coupon_field_on_cart']);
@@ -66,7 +66,7 @@ class customer_cart_details
 	function apply_coupon_to_cart($cart)
 	{
 
-		print("inside apply_coupon_to_cart ...");
+		//print("inside apply_coupon_to_cart ...");
 		// We should apply the discount for the authorized regular customers only
 		if (!is_user_logged_in()) {
 			return;
@@ -131,31 +131,32 @@ class customer_cart_details
 			],
 			'cookies'     => array(),
 		);
-		$resp = wp_remote_post('http://192.168.1.59:8081/coupons/get-coupon-code', $args);
+		$resp = wp_remote_post('http://localhost:8081/coupons/get-coupon-code', $args);
 		$data = json_decode(wp_remote_retrieve_body($resp));
 
-		print_r($data);
+		//print_r($data);
 		// $coupon_code = $data->couponCode;
 		// $discount_percentage = $data->discount;
 		// $data->couponCode
 		$coupon = new WC_Coupon();
 
-		$coupon_code = "7884975190"; //$data->couponCode;
+		$coupon_code = $data->couponCode;
 		$coupon->set_code($coupon_code); // Coupon code
-		$coupon->set_amount(50);  //$coupon->set_amount($data->discount); // Discount amount
+		//$coupon->set_amount(50);  
+		$coupon->set_amount($data->discount); // Discount amount
 		
 		$coupon->set_usage_limit(1);
 
 		$coupon_codes = $this->get_available_coupon_codes(); // Initializing
 		
 	
-		print("in debug 1");
-		print($coupon_code);
-		print_r($coupon_codes);
-				echo "<pre>";
-		print_r(WC()->cart->get_applied_coupons());
-				//print_r($coupon);
-				echo "</pre>";
+		// print("in debug 1");
+		// print($coupon_code);
+		// print_r($coupon_codes);
+		// 		echo "<pre>";
+		// print_r(WC()->cart->get_applied_coupons());
+		// 		//print_r($coupon);
+		// 		echo "</pre>";
 				
 		if($coupon_code!=null){
 
